@@ -18,9 +18,9 @@ Make sure you have the following installed:
 
 1. **Clone the Project:**
 
-   ```
-   git clone https://github.com/a3shater/tqdum.git
-   ```
+```
+git clone https://github.com/a3shater/tqdum.git
+```
 
 3. **Install and Run Apache and MySQL (XAMPP):**
 
@@ -28,7 +28,7 @@ Make sure you have the following installed:
 * Ensure both Apache and MySQL are "Running" in the XAMPP control panel.
 
 4. **Open Project in Code Editor (VS Code):**
-  ```
+```
 code .
 ```
 
