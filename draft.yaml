@@ -1,0 +1,113 @@
+models:
+  Faq:
+    question: text
+    answer: text
+    softDeletes
+  Applicant:
+    # name: string
+    user_id: id foreign
+    contact_info: string nullable
+    address: string nullable
+    qualification: string nullable
+    gender: string nullable
+    softDeletes
+    relationships:
+      belongsToMany: Program:applications
+      hasMany: Application
+  Program:
+    name: string
+    description: text
+    image: string nullable
+    start_date: dateTime
+    end_date: dateTime
+    student_count: string
+    is_published: boolean default:false
+    fields: json nullable
+    interview_min_rate: string nullable
+    softDeletes
+    relationships:
+      hasMany: Interview, Exam, Application
+      belongsToMany: Applicant:applications
+  Status:
+    name: string
+    softDeletes
+    relationships:
+      hasMany: Application
+  Application:
+    program_id: unsignedInteger
+    applicant_id: unsignedInteger
+    # status: enum:review,successful,failed,exam,interview default:'review'
+    values: json
+    status_id: unsignedInteger default:1
+    relationships:
+      belongsTo: Program, Applicant, Status
+      hasMany: Review
+      belongsToMany: Reviewer:reviews
+  Interviewer:
+    # name: string
+    user_id: id foreign
+    softDeletes
+    relationships:
+      belongsToMany: Interview:interview_results
+      hasMany: InterviewResult
+  Interview:
+    program_id: unsignedInteger
+    application_id: id foreign
+    # min_rate: string
+    interview_date: dateTime
+    softDeletes
+    relationships:
+      hasMany: InterviewResult
+      belongsToMany: Interviewer:interview_results
+      belongsTo: Program
+  InterviewResult:
+    # rating_value: string nullable
+    note: string nullable
+    interviewer_id: unsignedInteger
+    interview_id: unsignedInteger
+    relationships:
+      belongsTo: Interviewer, Interview
+      belongsToMany: Criteria:results
+      hasMany: Result
+  Reviewer:
+    # name: string
+    user_id: id foreign
+    softDeletes
+    relationships:
+      belongsToMany: Application:reviews
+      hasMany: Review
+  Review:
+    note: string
+    reviewer_id: unsignedInteger
+    application_id: unsignedInteger
+    relationships:
+      belongsTo: Reviewer, Application
+  Exam:
+    min_degree: string
+    exam_date: dateTime
+    program_id: unsignedInteger
+    softDeletes
+    relationships:
+      belongsTo: Program
+      hasMany: ExamResult
+  ExamResult:
+    exam_degree: string
+    note: string
+    exam_id: unsignedInteger
+    application_id: id foreign
+    softDeletes
+    relationships:
+      belongsTo: Exam
+  Result:
+    result: string nullable
+    criteria_id: unsignedInteger
+    interview_result_id: unsignedInteger
+    relationships:
+      belongsTo: Criteria, InterviewResult
+  Criteria:
+    name: string
+    softDeletes
+    relationships:
+      belongsToMany: InterviewResult:results
+      hasMany: Result
+# seeders: Applicant, Program, Application, Interviewer, Interview, InterviewResult, Reviewer, Review, Exam, ExamResult, Criteria, Status, Faq, Result

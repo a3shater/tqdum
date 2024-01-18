@@ -1,0 +1,63 @@
+created:
+    - database/factories/FaqFactory.php
+    - database/factories/ApplicantFactory.php
+    - database/factories/ProgramFactory.php
+    - database/factories/StatusFactory.php
+    - database/factories/ApplicationFactory.php
+    - database/factories/InterviewerFactory.php
+    - database/factories/InterviewFactory.php
+    - database/factories/InterviewResultFactory.php
+    - database/factories/ReviewerFactory.php
+    - database/factories/ReviewFactory.php
+    - database/factories/ExamFactory.php
+    - database/factories/ExamResultFactory.php
+    - database/factories/ResultFactory.php
+    - database/factories/CriteriaFactory.php
+    - database/migrations/2024_01_11_102030_create_faqs_table.php
+    - database/migrations/2024_01_11_102031_create_applicants_table.php
+    - database/migrations/2024_01_11_102032_create_programs_table.php
+    - database/migrations/2024_01_11_102033_create_statuses_table.php
+    - database/migrations/2024_01_11_102034_create_applications_table.php
+    - database/migrations/2024_01_11_102035_create_interviewers_table.php
+    - database/migrations/2024_01_11_102036_create_interviews_table.php
+    - database/migrations/2024_01_11_102037_create_interview_results_table.php
+    - database/migrations/2024_01_11_102038_create_reviewers_table.php
+    - database/migrations/2024_01_11_102039_create_reviews_table.php
+    - database/migrations/2024_01_11_102040_create_exams_table.php
+    - database/migrations/2024_01_11_102041_create_exam_results_table.php
+    - database/migrations/2024_01_11_102042_create_results_table.php
+    - database/migrations/2024_01_11_102043_create_criterias_table.php
+    - database/migrations/2024_01_11_102044_create_applications_table.php
+    - database/migrations/2024_01_11_102045_create_reviews_table.php
+    - database/migrations/2024_01_11_102046_create_interview_results_table.php
+    - database/migrations/2024_01_11_102047_create_results_table.php
+    - app/Models/Faq.php
+    - app/Models/Applicant.php
+    - app/Models/Program.php
+    - app/Models/Status.php
+    - app/Models/Application.php
+    - app/Models/Interviewer.php
+    - app/Models/Interview.php
+    - app/Models/InterviewResult.php
+    - app/Models/Reviewer.php
+    - app/Models/Review.php
+    - app/Models/Exam.php
+    - app/Models/ExamResult.php
+    - app/Models/Result.php
+    - app/Models/Criteria.php
+models:
+    User: { name: string, email: string, email_verified_at: 'datetime nullable', password: string, remember_token: 'string:100 nullable' }
+    Faq: { question: text, answer: text, softdeletes: softDeletes }
+    Applicant: { user_id: 'id foreign', contact_info: 'string nullable', address: 'string nullable', qualification: 'string nullable', gender: 'string nullable', softdeletes: softDeletes, relationships: { belongsToMany: 'Program:applications', hasMany: Application } }
+    Program: { name: string, description: text, image: 'string nullable', start_date: dateTime, end_date: dateTime, student_count: string, is_published: 'boolean default:false', fields: 'json nullable', interview_min_rate: 'string nullable', softdeletes: softDeletes, relationships: { hasMany: 'Interview, Exam, Application', belongsToMany: 'Applicant:applications' } }
+    Status: { name: string, softdeletes: softDeletes, relationships: { hasMany: Application } }
+    Application: { program_id: unsignedInteger, applicant_id: unsignedInteger, values: json, status_id: 'unsignedInteger default:1', relationships: { belongsTo: 'Program, Applicant, Status', hasMany: Review, belongsToMany: 'Reviewer:reviews' } }
+    Interviewer: { user_id: 'id foreign', softdeletes: softDeletes, relationships: { belongsToMany: 'Interview:interview_results', hasMany: InterviewResult } }
+    Interview: { program_id: unsignedInteger, application_id: 'id foreign', interview_date: dateTime, softdeletes: softDeletes, relationships: { hasMany: InterviewResult, belongsToMany: 'Interviewer:interview_results', belongsTo: Program } }
+    InterviewResult: { note: 'string nullable', interviewer_id: unsignedInteger, interview_id: unsignedInteger, relationships: { belongsTo: 'Interviewer, Interview', belongsToMany: 'Criteria:results', hasMany: Result } }
+    Reviewer: { user_id: 'id foreign', softdeletes: softDeletes, relationships: { belongsToMany: 'Application:reviews', hasMany: Review } }
+    Review: { note: string, reviewer_id: unsignedInteger, application_id: unsignedInteger, relationships: { belongsTo: 'Reviewer, Application' } }
+    Exam: { min_degree: string, exam_date: dateTime, program_id: unsignedInteger, softdeletes: softDeletes, relationships: { belongsTo: Program, hasMany: ExamResult } }
+    ExamResult: { exam_degree: string, note: string, exam_id: unsignedInteger, application_id: 'id foreign', softdeletes: softDeletes, relationships: { belongsTo: Exam } }
+    Result: { result: 'string nullable', criteria_id: unsignedInteger, interview_result_id: unsignedInteger, relationships: { belongsTo: 'Criteria, InterviewResult' } }
+    Criteria: { name: string, softdeletes: softDeletes, relationships: { belongsToMany: 'InterviewResult:results', hasMany: Result } }
