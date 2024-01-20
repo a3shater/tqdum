@@ -37,6 +37,7 @@ code .
 * Copy the contents from .env.example.
 * Create a new file named .env in the project root.
 * Paste the copied contents into .env.
+* Setup your .env file to custimize with your enviroment
 
 6. **Generate App Key:**
 
@@ -49,6 +50,24 @@ php artisan key:generate
 ```
 php artisan migrate
 ```
+
+### Or for quick access you can use sql and import it
+
+tqdum (1).sql
+
+### The user for tqdum (1).sql is:
+* Admin
+  email: ahmed@gmail.com
+  password: 123456123456
+* Reviewer
+  email: reviewer1@gmail.com
+  password: 12345678
+* Interviewer
+  email: interviewer1@gmail.com
+  password: 12345678
+* Applicant
+  email: a3shater.dev@gmail.com
+  password: 123456123456
 
 #### Running the App
 
