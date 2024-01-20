@@ -21,23 +21,8 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('/index', [TestController::class, 'index']);
-Route::get('/tess', function () {
-    return view('welcome');
-});
-Route::get('/adduser', [TestController::class, 'addUser']);
-Route::get('/add1', [TestController::class, 'add1']);
-Route::get('/add1', [TestController::class, 'add1']);
-Route::get('/add2', [TestController::class, 'add2']);
-Route::get('/add3', [TestController::class, 'add3']);
-Route::get(
-    '/register',
-    function () {
-        return view('register');
-    }
-);
 
-
+//route [1] landing page
 Route::get('/', function () {
     $program_count = Program::count();
     $applicant_count = Applicant::count();
@@ -58,13 +43,13 @@ Route::get('/', function () {
     ]);
 });
 
-//route [1] to save form structure to program_fields
+//route [2] to save form structure to program_fields
 Route::post('sava-form-fields/{id}', function (Request $request, $id) {
     $program = App\Models\Program::find($id);
     $program->fields = $request->fields;
     $program->update();
 });
-//route [2] to save form values to application_values
+//route [3] to save form values to application_values
 Route::post('save-form-values/{id}', function (Request $request, $id) {
 
     $dataArray = $request->except('_token');
@@ -91,10 +76,4 @@ Route::post('save-form-values/{id}', function (Request $request, $id) {
         'status_id' => 1,
     ]);
     return redirect()->back()->with('success', 'شكرا لتسجيلك في البرنامج');
-    // var_dump($request->all());
-    // Assuming you have a Request instance
-    // $request = Request::capture();
-
-    // Convert the request to an array
-    // print_r($dataArray);
 });
