@@ -23,10 +23,10 @@ class InterviewPage extends Page
     protected static bool $shouldRegisterNavigation = false;
     // public $record;
 
-    public static function shouldRegisterNavigation(): bool
-    {
-        return Auth()->user()->hasRole('interviewer') || Auth()->user()->hasRole('reviewer');
-    }
+    // public static function shouldRegisterNavigation(): bool
+    // {
+    //     return Auth()->user()->hasRole('interviewer') || Auth()->user()->hasRole('reviewer');
+    // }
 
     public function mount(): void
     {
